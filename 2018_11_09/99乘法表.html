@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue.js"></script>
+    <style>
+        .aa{
+            display: inline-block;
+            width: 54px;
+            border:1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+       
+        <div v-for="m in n" >
+            <span v-for="a in m" v-bind:class="{aa:true}">
+                    {{m}}*{{a}}={{m*n}}
+            </span>
+        </div>
+    </div>
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                n:9
+            },
+        })
+    </script>
+</body>
+</html>
