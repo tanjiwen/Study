@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- {{sex}}
+        <br>
+        男<input type="radio" value="男" v-model="sex">
+        女<input type="radio" value="女" v-model="sex">
+        保密<input type="radio" value="保密" v-model="sex"> -->
+
+        <!-- {{sex}}
+        <input type="checkbox" v-model="sex">
+        <input type="checkbox" v-model="sex"> -->
+        {{arr}}
+        <input type="text" v-model="search">
+        <ul>
+            <li v-for="(item, index) in data">
+                <input type="checkbox" v-model="item.selected"> 
+                {{item.name}}
+            </li>
+        </ul>
+        <button v-on:click="selectAll">全选</button>
+        <button v-on:click="reSelect">反选</button>
+        <button v-on:click="selectEven">选择偶数列</button>
+        <button v-on:click="cancelSelectAll">取消全选</button>
+        <button v-on:click="deletAll">批量删除</button>
+        <button v-on:click="sort">排序</button>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                search: '',
+                arr: [
+                   {
+                       selected: false,
+                       name: 'a张安'
+                   },
+                   {
+                       selected: false,
+                       name: 'b老李'
+                   },
+                   {
+                       selected: false,
+                       name: 'd小明1'
+                   },
+                   {
+                       selected: false,
+                       name: 'c小明2'
+                   },
+                   {
+                       selected: false,
+                       name: 'e小明34'
+                   },
+                   {
+                       selected: false,
+                       name: 'f小明4'
+                   }
+               ]
+            },
+            computed: {
+                data() {
+                    // if (this.search === '') return []
+                    return this.arr.filter((k) => {
+                        return k.name.indexOf(this.search) !== -1
+                    })
+                }
+            },  
+            methods: {
+                sort() {
+                    this.arr = this.arr.sort(function(a, b) {
+                        return a.name.localeCompare(b.name)
+                    })
+                },
+                selectEven() {
+                    this.arr.forEach((item, index) => {
+                        if (index % 2 === 1) {
+                            item.selected = true
+                        } else {
+                            item.selected = false
+                        }
+                    })
+                },
+                reSelect() {
+                    // console.log(this.arr)
+                    this.arr.forEach((item) => {
+                        item.selected = !item.selected
+                    })
+                },
+                selectAll() {
+                    this.arr.forEach(k => {
+                        k.selected = true
+                    })
+                },
+                cancelSelectAll(){
+                    this.arr.forEach(k => {
+                        k.selected = false
+                    })
+                },
+                deletAll() {
+                    this.arr = this.arr.filter(k => !k.selected)
+                }
+            }
+        })
+    </script>
+</body>
+</html>

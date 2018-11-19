@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+    <style>
+        li.active {
+            background: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="inputEmail" @keydown.down="down" @keydown.up="up"  @keydown.enter="enter">
+        <ul>
+            <li v-for="(item, index) in emails" @click="select(item)" :class="{
+                active: index === selectIndex
+            }">
+                {{item}}
+            </li>
+        </ul>
+    </div>
+    <script>
+        // v-on: 可以用@符号代替
+        // v-bind: 可以用:符号代替
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                selectIndex: -1,
+                inputEmail: '',
+                mailTypes: ['qq.com', '163.com', 'gmail.com']
+            },
+            watch: {
+                selectIndex(val) {
+                    // 对selectIndex 这个变量进行侦听
+                    // 限制它到最后一个结束
+                    if(val > this.emails.length - 1) {
+                        this.selectIndex = this.emails.length - 1
+                    } else if(val < 0) {
+                        this.selectIndex = 0
+                    }
+                }
+            },
+            methods:{ 
+                down() {
+                    console.log('down')
+                    this.selectIndex++
+                },
+                up() {
+                    console.log('up')
+                    this.selectIndex--
+                },
+                enter() {
+                    const index = this.selectIndex
+                    const email = this.emails[index]
+                    if (email) {
+                        this.inputEmail = email
+                    }
+                },
+                select(a) {
+                    // console.log(item)
+                    this.inputEmail = a
+                }
+            },
+            computed: {
+                emails() {
+                    // return [this.inputEmail + '@qq.com', this.inputEmail + '@163.com']
+                    if (this.inputEmail !== '') {
+                        if (/@/g.test(this.inputEmail)) return []
+                        return this.mailTypes.map(k => {
+                            return this.inputEmail + '@' + k
+                        })
+                    } else {
+                        return []
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

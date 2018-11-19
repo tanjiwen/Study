@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="inputEmail">
+        <ul>
+            <li v-for="(item) in emails" @click="select(item)">
+                    {{item}}
+            </li>
+        </ul>
+    </div>
+    <script>
+        new Vue({
+            el:'#app',
+            data:{
+                inputEmail:'',
+                mailTypes:['qq.com','163.com','gmail.com']
+            },
+            methods:{
+                select(a){
+                    // console.log(a)
+                    this.inputEmail=a
+                }
+            },
+            computed:{
+                emails(){
+                    
+                    if(this.inputEmail !==''){
+                        if(/@/g.test(this.inputEmail)) return []
+                        return this.mailTypes.map(k =>{
+                            return this.inputEmail+'@'+k  
+                        })
+                    }else{
+                        return []
+                    }
+                }
+            }
+        })
+       
+    </script>
+</body>
+</html>
